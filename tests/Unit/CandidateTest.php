@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,7 +18,7 @@ class TestCandidate extends TestCase
 
         $candidates = Candidate::factory(3)->create();
 
-        $response = $this->get('/api/lead', ['Authorization' => 'Bearer ' . $token['data']['token']]);
+        $response = $this->get('/api/leads', ['Authorization' => 'Bearer ' . $token['data']['token']]);
 
         $response->assertStatus(200);
 
