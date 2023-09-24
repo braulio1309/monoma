@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('source');
             $table->unsignedBigInteger('owner');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('owner')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });
     }
