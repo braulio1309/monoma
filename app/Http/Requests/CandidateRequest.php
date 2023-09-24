@@ -8,9 +8,8 @@ class CandidateRequest extends FormRequest
 {
     public function authorize()
     {
-        return true; 
+        return true;
     }
-
 
     public function rules()
     {
@@ -18,7 +17,7 @@ class CandidateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'source' => 'required|string|max:255',
             'owner' => 'required|integer',
-            'created_by' => 'required|integer'
         ];
     }
+
 }
