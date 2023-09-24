@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('password');
-            $table->dateTime('last_login')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->enum('role', ['manager', 'agent']);
-            $table->rememberToken();
+            $table->string('name');
+            $table->string('source');
+            $table->unsignedBigInteger('owner');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('owner')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('candidates');
     }
 };
