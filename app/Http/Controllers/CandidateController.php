@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CandidateRequest;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Candidate;
 
 class CandidateController extends Controller
 {
    public function index(){
 
-        if (auth()->user()->role === Candidate::MANAGER) {
-            $candidates = Candidate::all();
-        } else {
-            $candidates = Candidate::where('owner', auth()->user()->id)->get();
-        }
-
+        $candidates = Cache::remember('candidates', 60, function () {
+            if (auth()->user()->role === Candidate::MANAGER) {
+                return Candidate::all();
+            } else {
+                return Candidate::where('owner', auth()->user()->id)->get();
+            }
+        });
+        
         $response = [
             'meta' => [
                 'success' => true,
