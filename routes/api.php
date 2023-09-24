@@ -22,6 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/auth', [AuthController::class, 'login']);
 Route::middleware(['jwt.auth'])->group(function () {
-    Route::resource('lead', CandidateController::class);
+    Route::controller(CandidateController::class)
+        ->group(function () {
+            Route::get('/leads', [CandidateController::class, 'index']);
+            Route::get('/lead/{id}', [CandidateController::class, 'show']);
+            Route::post('/lead', [CandidateController::class, 'store']);
+        });
 });
 
