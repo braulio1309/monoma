@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CandidateRequest;
 use App\Models\Candidate;
-use Illuminate\Http\Request;
 
 class CandidateController extends Controller
 {
@@ -27,23 +26,8 @@ class CandidateController extends Controller
         return response()->json($response, 200);
     }
 
-    public function store(Request $request)
+    public function store(CandidateRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'source' => 'required|string',
-            'owner' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'meta' => [
-                    'success' => false,
-                    'errors' => $validator->errors()->all(),
-                ],
-            ], 400); 
-        }
 
         $candidate = Candidate::create([
             'name' => $request->input('name'),
