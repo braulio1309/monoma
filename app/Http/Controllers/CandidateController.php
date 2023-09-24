@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use App\Http\Requests\CandidateRequest;
 
 class CandidateController extends Controller
 {
@@ -26,6 +27,24 @@ class CandidateController extends Controller
         return response()->json($response, 200);
     }
 
+    public function store(CandidateRequest  $request)
+    {
+        $candidate = Candidate::create([
+            'name' => $request->input('name'),
+            'source' => $request->input('source'),
+            'owner' => $request->input('owner'),
+            'created_by' => auth()->user()->id, 
+        ]);
+
+        return response()->json([
+            'meta' => [
+                'success' => true,
+                'errors' => [],
+            ],
+            'data' => $candidate,
+        ], 201); 
+    }
+
     public function show($id)
     {
         $candidate = Candidate::find($id);
@@ -46,20 +65,5 @@ class CandidateController extends Controller
             ],
             'data' => $candidate,
         ], 200); 
-    }
-
-    public function edit($id)
-    {
-        // Muestra el formulario para editar un candidato
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Lógica para actualizar un candidato en la base de datos
-    }
-
-    public function destroy($id)
-    {
-        // Lógica para eliminar un candidato de la base de datos
     }
 }
